@@ -1,16 +1,15 @@
-<div class="page-container" [class.is-mobile]="mobileQuery.matches">
+<div class="page-container" [class.is-mobile]="breakpointService.isMobile">
   <mat-toolbar color="primary" class="toolbar">
-    <button mat-icon-button (click)="showSidenav=!showSidenav">
+    <button mat-icon-button (click)="breakpointService.showSidenav=!breakpointService.showSidenav">
       <mat-icon>menu</mat-icon>
     </button>
     <h1 class="app-name">Angular Guide</h1>
   </mat-toolbar>
 
-  <mat-sidenav-container class="sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+  <mat-sidenav-container class="sidenav-container">
 
-    <mat-sidenav [(opened)]="showSidenav" [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-sidenav [(opened)]="breakpointService.showSidenav" [mode]="breakpointService.sidenavMode"
+                 [fixedInViewport]="breakpointService.isMobile" fixedTopGap="56">
 
       <mat-nav-list>
         <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
