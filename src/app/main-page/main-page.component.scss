@@ -7,14 +7,33 @@
   left: 0;
   right: 0;
 
-  .app-name {
-    margin-left: 8px;
+  .toolbar {
+    padding-left: 8%;
+  }
+
+  .app-logo {
+    height: 50px;
   }
 
   .sidenav-container {
+    margin: 0 8%;
     flex: 1;
   }
 
+  .top-link {
+    border-radius: 0;
+
+    .link-underline {
+      height: 2px;
+      width: 0%;
+      background-color: white;
+    }
+
+    &.active .link-underline {
+      width: 100%;
+      transition: width linear .3s;
+    }
+  }
 }
 
 .is-mobile {
@@ -26,11 +45,14 @@
 
   .sidenav-container {
     flex: 1 0 auto;
-    margin-top: 56px;
+    margin: 64px 0;
   }
-
-
 }
 
+@media (max-width: 599px) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 64px;
+  }
+}
 
 

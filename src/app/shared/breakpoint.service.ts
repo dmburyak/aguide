@@ -15,7 +15,7 @@ export class BreakpointService {
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.brObserver = this.breakpointObserver
-      .observe(['(max-width: 599px)']);
+      .observe(['(max-width: 799px)']);
     this.brObserver.subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.showSidenav = false;

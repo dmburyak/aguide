@@ -10,13 +10,17 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
+import {SideNavComponent} from './shared/side-nav/side-nav.component';
+import {MainContentComponent} from './shared/main-content/main-content.component';
+import {MatTreeModule} from '@angular/material/tree';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SideNavComponent,
+    MainContentComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,7 @@ import {MatListModule} from '@angular/material/list';
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,26 @@
 <div class="page-container" [class.is-mobile]="breakpointService.isMobile">
   <mat-toolbar color="primary" class="toolbar">
+    <div>
+      <img class="app-logo" src="../../assets/angular-white-transparent.svg">
+    </div>
+
     <button mat-icon-button (click)="breakpointService.showSidenav=!breakpointService.showSidenav">
       <mat-icon>menu</mat-icon>
     </button>
-    <h1 class="app-name">Angular Guide</h1>
+
+
+    <nav>
+      <a class="top-link" mat-button routerLink="/angular" routerLinkActive="active">Angular
+        <div class="link-underline"></div>
+      </a>
+      <a class="top-link" mat-button routerLink="/rxjs" routerLinkActive="active">RxJs
+        <div class="link-underline"></div>
+      </a>
+      <a class="top-link" mat-button routerLink="/angular-material" routerLinkActive="active">Material
+        <div class="link-underline"></div>
+      </a>
+    </nav>
+
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
@@ -11,13 +28,12 @@
     <mat-sidenav [(opened)]="breakpointService.showSidenav" [mode]="breakpointService.sidenavMode"
                  [fixedInViewport]="breakpointService.isMobile" fixedTopGap="56">
 
-      <mat-nav-list>
-        <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
-      </mat-nav-list>
+      <app-side-nav></app-side-nav>
+
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <p *ngFor="let content of fillerContent">{{content}}</p>
+      <app-main-content></app-main-content>
     </mat-sidenav-content>
 
   </mat-sidenav-container>
