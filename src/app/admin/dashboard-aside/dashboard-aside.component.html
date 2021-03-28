@@ -1,0 +1,24 @@
+
+  <section class="section">
+  <span class="list-section">
+    <mat-checkbox class="checkbox-margin"
+                  [checked]="allSelect"
+                  [color]="category.color"
+                  [indeterminate]="someSelect()"
+                  (change)="setAll($event.checked)">
+      {{category.name}}
+    </mat-checkbox>
+  </span>
+    <span class="list-section">
+    <ul>
+      <li *ngFor="let subcategory of category.subcategory">
+        <mat-checkbox [(ngModel)]="subcategory.selected"
+                      [color]="subcategory.color"
+                      (ngModelChange)="updateAllSelect()">
+          {{subcategory.name}}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </span>
+  </section>
+
