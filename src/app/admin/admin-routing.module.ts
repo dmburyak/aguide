@@ -4,13 +4,16 @@ import {AdminComponent} from './admin.component';
 import {AddPageComponent} from './add-page/add-page.component';
 import {EditPageComponent} from './edit-page/edit-page.component';
 import {LoginPageComponent} from './login-page/login-page.component';
-import {PageNotFoundComponent} from '../shared/page-not-found/page-not-found.component';
+import {PageNotFoundComponent} from '../shared/components/page-not-found/page-not-found.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  {path: '', component: AdminComponent},
-  {path: 'add', component: AddPageComponent},
-  {path: 'edit', component: EditPageComponent},
-  {path: 'login', component: LoginPageComponent},
+  {path: '', component: AdminComponent, children: [
+    {path: '', component: DashboardComponent},
+      {path: 'add', component: AddPageComponent},
+      {path: 'edit', component: EditPageComponent},
+      {path: 'login', component: LoginPageComponent}
+    ]},
   {path: '**', component: PageNotFoundComponent}
 ];
 

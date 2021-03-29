@@ -17,10 +17,22 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import { DashboardAsideComponent } from './dashboard-aside/dashboard-aside.component';
+import {MatSelectModule} from "@angular/material/select";
+import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [AdminComponent, DashboardComponent, AddPageComponent, EditPageComponent, LoginPageComponent, DashboardContentComponent, DashboardAsideComponent],
+  declarations: [
+    AdminComponent,
+    DashboardComponent,
+    AddPageComponent,
+    EditPageComponent,
+    LoginPageComponent,
+    DashboardContentComponent,
+    DashboardAsideComponent,
+    ToolbarComponent
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -32,7 +44,9 @@ import { DashboardAsideComponent } from './dashboard-aside/dashboard-aside.compo
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatSelectModule,
+    MatButtonModule
   ]
 })
 export class AdminModule {

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  fbUrl: 'https://aguide-f4abc-default-rtdb.firebaseio.com/'
 };

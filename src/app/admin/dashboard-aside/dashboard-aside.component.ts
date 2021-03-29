@@ -1,12 +1,5 @@
-import {ThemePalette} from '@angular/material/core';
 import {Component} from '@angular/core';
-
-export interface Category {
-  name: string;
-  selected: boolean;
-  color: ThemePalette;
-  subcategory?: Category[];
-}
+import {TreeItem} from '../../shared/interfaces';
 
 @Component({
   selector: 'app-dashboard-aside',
@@ -15,12 +8,11 @@ export interface Category {
 })
 export class DashboardAsideComponent {
 
-
-  category: Category = {
+  treeItem: TreeItem = {
     name: 'Select all',
     selected: false,
     color: 'primary',
-    subcategory: [
+    treeSubItem: [
       {name: 'Взаимодействие компонентов', selected: false, color: 'primary'},
       {name: 'Accent', selected: false, color: 'primary'},
       {name: 'Warn', selected: false, color: 'primary'}
@@ -30,21 +22,21 @@ export class DashboardAsideComponent {
   allSelect = false;
 
   updateAllSelect(): void {
-    this.allSelect = this.category.subcategory != null && this.category.subcategory.every(t => t.selected);
+    this.allSelect = this.treeItem.treeSubItem != null && this.treeItem.treeSubItem.every(t => t.selected);
   }
 
   someSelect(): boolean {
-    if (this.category.subcategory == null) {
+    if (this.treeItem.treeSubItem == null) {
       return false;
     }
-    return this.category.subcategory.filter(t => t.selected).length > 0 && !this.allSelect;
+    return this.treeItem.treeSubItem.filter(t => t.selected).length > 0 && !this.allSelect;
   }
 
   setAll(selected: boolean): void {
     this.allSelect = selected;
-    if (this.category.subcategory == null) {
+    if (this.treeItem.treeSubItem == null) {
       return;
     }
-    this.category.subcategory.forEach(t => t.selected = selected);
+    this.treeItem.treeSubItem.forEach(t => t.selected = selected);
   }
 }

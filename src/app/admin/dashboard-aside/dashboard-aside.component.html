@@ -3,15 +3,15 @@
   <span class="list-section">
     <mat-checkbox class="checkbox-margin"
                   [checked]="allSelect"
-                  [color]="category.color"
+                  [color]="treeItem.color"
                   [indeterminate]="someSelect()"
                   (change)="setAll($event.checked)">
-      {{category.name}}
+      {{treeItem.name}}
     </mat-checkbox>
   </span>
     <span class="list-section">
     <ul>
-      <li *ngFor="let subcategory of category.subcategory">
+      <li *ngFor="let subcategory of treeItem.treeSubItem">
         <mat-checkbox [(ngModel)]="subcategory.selected"
                       [color]="subcategory.color"
                       (ngModelChange)="updateAllSelect()">
