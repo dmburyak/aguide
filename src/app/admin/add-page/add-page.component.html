@@ -1,24 +1,32 @@
 <div class="form-container">
-  <form class="add-page" [formGroup]="addForm" (ngSubmit)="submit()">
+  <form class="add-page" [formGroup]="addForm" (ngSubmit)="submit()" #ngForm="ngForm">
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
+      <mat-error *ngIf="title.invalid">This field is required</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Category</mat-label>
       <mat-select formControlName="category">
         <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
+        <mat-option value="new">New category</mat-option>
       </mat-select>
+      <mat-error *ngIf="category.invalid">This field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter new category if needed</mat-label>
+      <input matInput formControlName="newCategory">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Content</mat-label>
       <textarea matInput formControlName="content"></textarea>
+      <mat-error *ngIf="content.invalid">This field is required</mat-error>
     </mat-form-field>
 
-    <button mat-raised-button type="submit">Submit</button>
+    <button class="btn-submit" mat-raised-button type="submit" [disabled]="addForm.invalid || submitted">Submit</button>
 
   </form>
 </div>

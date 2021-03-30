@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ArticleService } from '../../shared/services/article.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { Article } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-add-page',
@@ -9,22 +11,46 @@ import { ArticleService } from '../../shared/services/article.service';
 })
 export class AddPageComponent implements OnInit {
 
-  constructor(private articleService: ArticleService) {
+  @ViewChild('ngForm') private ngForm!: NgForm;
+
+  submitted = false;
+
+  title = new FormControl('', Validators.required);
+  category = new FormControl('', Validators.required);
+  content = new FormControl('', Validators.required);
+  newCategory = new FormControl('');
+
+  constructor(private articleService: ArticleService, private snackBarService: SnackBarService) {
   }
 
   addForm = new FormGroup({
-    title: new FormControl('',),
-    category: new FormControl(''),
-    content: new FormControl('')
+    title: this.title,
+    category: this.category,
+    content: this.content,
+    newCategory: this.newCategory
   });
 
   ngOnInit(): void {
   }
 
   submit(): void {
-    console.log(this.addForm.value);
-    this.articleService.create(this.addForm.value).subscribe(
-      () => console.log('Ok')
+    this.submitted = true;
+    const article: Article = {
+      content: this.content.value,
+      title: this.title.value,
+      category: this.newCategory.value ? this.newCategory.value : this.category.value
+    };
+
+    this.articleService.create(article).subscribe(
+      () => {
+        this.submitted = false;
+        this.snackBarService.openSnackBar('New Article created!');
+        this.ngForm.resetForm();
+      },
+      (error) => {
+        this.submitted = false;
+        console.log(error);
+      }
     );
   }
 }
