@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointService } from '../shared/services/breakpoint.service';
 import { ArticleService } from '../shared/services/article.service';
-import { Article } from '../shared/interfaces';
+import { Article, Category } from '../shared/interfaces';
 
 @Component({
   selector: 'app-main-page',
@@ -11,7 +11,7 @@ import { Article } from '../shared/interfaces';
 export class MainPageComponent implements OnInit {
 
   articles: Article[] = [];
-  categories: any = [];
+  categories: Category[] = [];
   article: any;
 
   constructor(public breakpointService: BreakpointService, private articleService: ArticleService) {

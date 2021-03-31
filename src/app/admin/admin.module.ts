@@ -14,10 +14,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import {DashboardContentComponent} from './dashboard-content/dashboard-content.component';
 import {MatSortModule} from '@angular/material/sort';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import { DashboardAsideComponent } from './dashboard-aside/dashboard-aside.component';
-import {MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from '@angular/material/select';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatButtonModule } from '@angular/material/button';
 

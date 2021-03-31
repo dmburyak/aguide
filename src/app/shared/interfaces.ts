@@ -7,12 +7,14 @@ export interface TreeItem {
   treeSubItem?: TreeItem[];
 }
 
+export interface Category {
+  categoryName: string;
+  categorySortNumber: number;
+}
+
 export interface Article {
   id?: string;
-  category: {
-    categoryName: string,
-    categorySortNumber: number
-  };
+  category: Category;
   title: string;
   content: string;
   sortNumber: number;

@@ -15,6 +15,7 @@ import { MainContentComponent } from './shared/components/main-content/main-cont
 import { MatTreeModule } from '@angular/material/tree';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    QuillModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
