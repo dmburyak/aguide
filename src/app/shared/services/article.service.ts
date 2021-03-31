@@ -22,8 +22,7 @@ export class ArticleService {
   getAll(): Observable<any[]> {
 
     return this.http.get(`${environment.fbUrl}/article.json`)
-     // .pipe(map((res: { [key: string]: any }) => Object.keys(res)
-      .pipe(map((res: any) => Object.keys(res)
+      .pipe(map((res: { [key: string]: any }) => Object.keys(res)
         .map(key => ({...res[key], id: key}))
       ));
   }

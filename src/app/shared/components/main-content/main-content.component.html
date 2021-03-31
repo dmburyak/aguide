@@ -1,3 +1,8 @@
-<article class="article">
-  <p *ngFor="let content of fillerContent">{{content}}</p>
+<article class="article" *ngIf="article; else loading">
+  <h2 class="title">{{article.title}}</h2>
+  <p>{{article.content}}</p>
 </article>
+
+<ng-template #loading>
+  <p>Loading....</p>
+</ng-template>

@@ -19,6 +19,7 @@ export class AddPageComponent implements OnInit {
   category = new FormControl('', Validators.required);
   content = new FormControl('', Validators.required);
   newCategory = new FormControl('');
+  newCategorySortNumber = new FormControl('');
 
   constructor(private articleService: ArticleService, private snackBarService: SnackBarService) {
   }
@@ -27,7 +28,8 @@ export class AddPageComponent implements OnInit {
     title: this.title,
     category: this.category,
     content: this.content,
-    newCategory: this.newCategory
+    newCategory: this.newCategory,
+    newCategorySortNumber: this.newCategorySortNumber
   });
 
   ngOnInit(): void {
@@ -35,10 +37,15 @@ export class AddPageComponent implements OnInit {
 
   submit(): void {
     this.submitted = true;
+    let maxArticleSortNumber = 10;
     const article: Article = {
       content: this.content.value,
       title: this.title.value,
-      category: this.newCategory.value ? this.newCategory.value : this.category.value
+      sortNumber: maxArticleSortNumber++,
+      category: {
+        categoryName: this.newCategory.value ? this.newCategory.value : this.category.value,
+        categorySortNumber: this.newCategorySortNumber.value
+      }
     };
 
     this.articleService.create(article).subscribe(
@@ -53,4 +60,5 @@ export class AddPageComponent implements OnInit {
       }
     );
   }
+
 }

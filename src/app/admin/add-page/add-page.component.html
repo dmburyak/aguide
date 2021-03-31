@@ -21,6 +21,11 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
+      <mat-label>Enter new category order number if needed</mat-label>
+      <input matInput type="number" formControlName="newCategorySortNumber" placeholder="Enter number">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Content</mat-label>
       <textarea matInput formControlName="content"></textarea>
       <mat-error *ngIf="content.invalid">This field is required</mat-error>

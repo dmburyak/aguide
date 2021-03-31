@@ -1,4 +1,4 @@
-import {ThemePalette} from '@angular/material/core';
+import { ThemePalette } from '@angular/material/core';
 
 export interface TreeItem {
   name: string;
@@ -9,7 +9,11 @@ export interface TreeItem {
 
 export interface Article {
   id?: string;
-  category: string;
+  category: {
+    categoryName: string,
+    categorySortNumber: number
+  };
   title: string;
   content: string;
+  sortNumber: number;
 }
