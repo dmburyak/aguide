@@ -30,7 +30,6 @@ import { QuillModule } from 'ngx-quill';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    QuillModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
