@@ -1,6 +1,6 @@
 <article class="article" *ngIf="article; else loading">
-  <h2 class="title">{{article.title}}</h2>
-  <p>{{article.content}}</p>
+  <h2 class="title">{{article.content.title}}</h2>
+  <quill-view-html [content]="article.content.text" theme="snow"></quill-view-html>
 </article>
 
 <ng-template #loading>

@@ -35,7 +35,8 @@ import { QuillModule } from 'ngx-quill';
     MatIconModule,
     MatSidenavModule,
     MatTreeModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    QuillModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

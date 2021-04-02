@@ -1,31 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointService } from '../shared/services/breakpoint.service';
 import { ArticleService } from '../shared/services/article.service';
-import { Article, Category } from '../shared/interfaces';
+import { Category } from '../shared/interfaces';
+import { CategoryService } from '../shared/services/category.service';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss']
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
 
-  articles: Article[] = [];
   categories: Category[] = [];
   article: any;
+  firstCategory: any;
+  subscription: any;
 
-  constructor(public breakpointService: BreakpointService, private articleService: ArticleService) {
+  constructor(
+    public breakpointService: BreakpointService,
+    private articleService: ArticleService,
+    private categoryService: CategoryService
+  ) {
   }
 
   ngOnInit(): void {
-    this.articleService.getAll()
-      .subscribe((response) => {
-        this.articles = response;
-        this.categories = response.map(article => article.category);
-        const minCategorySortNumbers = Math.min(...this.categories.map((category: any) => category.categorySortNumber));
-        const firstCategory = this.categories.find((category: any) => category.categorySortNumber === minCategorySortNumbers);
-        this.article = this.articles.find(article => article.category === firstCategory);
-      });
+
+    const initStream$ = this.categoryService.getAllCategories()
+      .pipe(
+        map(response => {
+          this.categories = response;
+          return this.categoryService.getFirstCategory(this.categories);
+        }),
+        mergeMap(category => {
+          return this.articleService.getArticlesByCategoryName(category.categoryName);
+        })
+      );
+
+    this.subscription = initStream$.subscribe(res => {
+      this.article = this.articleService.getFirstArticle(res);
+    });
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

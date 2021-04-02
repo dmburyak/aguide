@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ArticleService } from '../../shared/services/article.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
-import { Article } from '../../shared/interfaces';
+import { Article, Category } from '../../shared/interfaces';
+import { CategoryService } from '../../shared/services/category.service';
 
 @Component({
   selector: 'app-add-page',
@@ -17,17 +18,21 @@ export class AddPageComponent implements OnInit {
 
   title = new FormControl('', Validators.required);
   category = new FormControl('', Validators.required);
-  content = new FormControl('', Validators.required);
+  text = new FormControl('', Validators.required);
   newCategory = new FormControl('');
   newCategorySortNumber = new FormControl('');
 
-  constructor(private articleService: ArticleService, private snackBarService: SnackBarService) {
+  constructor(
+    private articleService: ArticleService,
+    private snackBarService: SnackBarService,
+    private categoryService: CategoryService
+    ) {
   }
 
   addForm = new FormGroup({
     title: this.title,
     category: this.category,
-    content: this.content,
+    text: this.text,
     newCategory: this.newCategory,
     newCategorySortNumber: this.newCategorySortNumber
   });
@@ -38,17 +43,22 @@ export class AddPageComponent implements OnInit {
   submit(): void {
     this.submitted = true;
     let maxArticleSortNumber = 10;
-    const article: Article = {
-      content: this.content.value,
-      title: this.title.value,
-      sortNumber: maxArticleSortNumber++,
-      category: {
-        categoryName: this.newCategory.value ? this.newCategory.value : this.category.value,
-        categorySortNumber: this.newCategorySortNumber.value
-      }
+
+    const category: Category = {
+      categoryName: this.newCategory.value ? this.newCategory.value : this.category.value,
+      categorySortNumber: this.newCategorySortNumber.value,
     };
 
-    this.articleService.create(article).subscribe(
+    const article: Article = {
+      category,
+      content: {
+        text: this.text.value,
+        title: this.title.value,
+      },
+      sortNumber: maxArticleSortNumber++
+    };
+
+    this.articleService.createArticle(article).subscribe(
       () => {
         this.submitted = false;
         this.snackBarService.openSnackBar('New Article created!');
@@ -59,6 +69,18 @@ export class AddPageComponent implements OnInit {
         console.log(error);
       }
     );
+
+    if (this.newCategory.value) {
+      this.categoryService.createCategory(category).subscribe(
+        () => {
+          this.snackBarService.openSnackBar('New Category created!');
+          this.ngForm.resetForm();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 
 }

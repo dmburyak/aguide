@@ -10,12 +10,15 @@ export interface TreeItem {
 export interface Category {
   categoryName: string;
   categorySortNumber: number;
+  id?: string;
 }
 
 export interface Article {
-  id?: string;
   category: Category;
-  title: string;
-  content: string;
+  content: {
+    title: string;
+    text: string;
+  };
   sortNumber: number;
+  id?: string;
 }

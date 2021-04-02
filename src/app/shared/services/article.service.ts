@@ -14,22 +14,30 @@ export class ArticleService {
   constructor(private http: HttpClient) {
   }
 
-  create(article: Article): Observable<any> {
+  createArticle(article: Article): Observable<any> {
     return this.http.post(`${environment.fbUrl}/article.json`, article);
   }
 
+  getArticlesByCategoryName(categoryName: string): Observable<any> {
+    return this.http.get(`${environment.fbUrl}/article.json?orderBy="category/categoryName"&equalTo="${categoryName}"`)
+      .pipe(map((res: any) => Object.keys(res)
+        .map(key => ({...res[key], id: key}))
+      ));
+  }
 
-  getAll(): Observable<any[]> {
+  getFirstArticle(articles: Article[]): Article | undefined {
+    const minArticleSortNumber = Math.min(...articles.map((article: Article) => article.sortNumber));
+    return articles.find((article: Article) => article.sortNumber === minArticleSortNumber);
+}
 
+/*
+  getAllArticles(): Observable<any[]> {
     return this.http.get(`${environment.fbUrl}/article.json`)
       .pipe(map((res: { [key: string]: any }) => Object.keys(res)
         .map(key => ({...res[key], id: key}))
       ));
   }
 
-
-
-  /*
     getById(): Observable<any> {
       return this.http.get(`url/article/id.json`);
     }
