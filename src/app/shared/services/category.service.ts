@@ -24,9 +24,9 @@ export class CategoryService {
       ));
   }
 
-  getFirstCategory(categories: Category[]): any {
+  getFirstCategory(categories: Category[]): Category {
     const minCategorySortNumbers = Math.min(...categories.map((category: Category) => category.categorySortNumber));
-    return categories.find((category: Category) => category.categorySortNumber === minCategorySortNumbers);
+    return categories.find((category: Category) => category.categorySortNumber === minCategorySortNumbers) as Category;
   }
 
 }
