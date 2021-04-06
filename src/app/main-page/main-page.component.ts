@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointService } from '../shared/services/breakpoint.service';
 import { ArticleService } from '../shared/services/article.service';
-import { Category } from '../shared/interfaces';
+import { Article, Category, TreeNode } from '../shared/interfaces';
 import { CategoryService } from '../shared/services/category.service';
 import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -13,9 +14,11 @@ import { map, mergeMap } from 'rxjs/operators';
 export class MainPageComponent implements OnInit, OnDestroy {
 
   categories: Category[] = [];
+  articles: Article[] = [];
   article: any;
   firstCategory: any;
-  subscription: any;
+  firstArticleSubscription: any;
+  tree: TreeNode[] = [];
 
   constructor(
     public breakpointService: BreakpointService,
@@ -26,25 +29,39 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    const initStream$ = this.categoryService.getAllCategories()
+    const articles$ = this.categoryService.getAllCategories()
       .pipe(
         map(response => {
-          this.categories = response;
-          return this.categoryService.getFirstCategory(this.categories);
+          return response.sort((a, b) => a.categorySortNumber - b.categorySortNumber);
         }),
-        mergeMap(category => {
-          return this.articleService.getArticlesByCategoryName(category.categoryName);
+        mergeMap(response => {
+          this.categories = response;
+          const firstCategoryArticles = this.articleService.getArticlesByCategoryName(response[0].categoryName);
+          const allArticles = this.articleService.getAllArticles();
+          return forkJoin([firstCategoryArticles, allArticles]);
         })
       );
 
-    this.subscription = initStream$.subscribe(res => {
-      this.article = this.articleService.getFirstArticle(res);
+    this.firstArticleSubscription = articles$.subscribe(result => {
+      this.article = this.articleService.getFirstArticle(result[0]);
+      this.articles = result[1];
+
+      this.tree = this.categories.map((category) => {
+        const articlesOfCategory = this.articles.filter(
+          (article) => category.categoryName === article.category.categoryName
+        );
+        articlesOfCategory.sort((a, b) => a.sortNumber - b.sortNumber);
+        const titles: { name: string; }[] = articlesOfCategory.map((article) => ({name: article.content.title}));
+        return {name: category.categoryName, children: titles};
+      });
+
     });
+
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.firstArticleSubscription) {
+      this.firstArticleSubscription.unsubscribe();
     }
   }
 }

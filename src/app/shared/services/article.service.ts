@@ -30,24 +30,24 @@ export class ArticleService {
     return articles.find((article: Article) => article.sortNumber === minArticleSortNumber) as Article;
   }
 
+  getAllArticles(): Observable<any[]> {
+    return this.http.get(`${environment.fbUrl}/article.json`)
+      .pipe(map((res: { [key: string]: any }) => Object.keys(res)
+        .map(key => ({...res[key], id: key}))
+      ));
+  }
+
   /*
-    getAllArticles(): Observable<any[]> {
-      return this.http.get(`${environment.fbUrl}/article.json`)
-        .pipe(map((res: { [key: string]: any }) => Object.keys(res)
-          .map(key => ({...res[key], id: key}))
-        ));
-    }
+        getById(): Observable<any> {
+          return this.http.get(`url/article/id.json`);
+        }
 
-      getById(): Observable<any> {
-        return this.http.get(`url/article/id.json`);
-      }
+        update(article: Article): Observable<any> {
+          return this.http.patch(`url/article/id.json`, article);
+        }
 
-      update(article: Article): Observable<any> {
-        return this.http.patch(`url/article/id.json`, article);
-      }
-
-      remove(id: string): Observable<any> {
-        return this.http.delete(`url/article/id.json`);
-      }
-    */
+        remove(id: string): Observable<any> {
+          return this.http.delete(`url/article/id.json`);
+        }
+      */
 }

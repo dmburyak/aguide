@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  fbUrl: 'https://aguide-f4abc-default-rtdb.firebaseio.com/'
+  fbUrl: 'https://aguide-f4abc-default-rtdb.firebaseio.com'
 };
 
 /*

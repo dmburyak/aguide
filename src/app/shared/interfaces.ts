@@ -22,3 +22,8 @@ export interface Article {
   sortNumber: number;
   id?: string;
 }
+
+export interface TreeNode {
+  name: string;
+  children?: TreeNode[];
+}

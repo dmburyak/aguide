@@ -1,51 +1,35 @@
-import {NestedTreeControl} from '@angular/cdk/tree';
-import {Component} from '@angular/core';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Other',
-    children: []
-  },
-];
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../../interfaces';
 
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.scss']
 })
-export class SideNavComponent {
+export class SideNavComponent implements OnInit {
 
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
-
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  @Input()
+  set tree(data: any[]) {
+    this.dataSource.data = data;
   }
 
-  hasChild = (_: number, node: FoodNode) => !!node.children;
+  treeControl = new NestedTreeControl<TreeNode>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<TreeNode>();
+  items = false;
 
-  emptyChild(node: FoodNode): boolean {
+  constructor() {
+  }
+
+  hasChild = (_: number, node: TreeNode) => !!node.children;
+
+  emptyChild(node: TreeNode): boolean {
     return !!node.children && node.children.length === 0;
   }
 
+  ngOnInit(): void {
+   // console.log(this.dataSource.data);
+    // this.dataSource.data = [{name: 'Loading...'}];
+  }
 }
