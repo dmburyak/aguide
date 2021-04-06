@@ -26,4 +26,5 @@ export interface Article {
 export interface TreeNode {
   name: string;
   children?: TreeNode[];
+  id?: string;
 }

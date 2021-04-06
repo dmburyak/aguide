@@ -1,11 +1,12 @@
 <aside class="aside">
 
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree" *ngIf="dataSource.data.length > 0; else loading">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree"
+            *ngIf="dataSource.data.length > 0; else loading">
 
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
 
       <button mat-icon-button disabled></button>
-      {{node.name}}
+      <span class="side-link" (click)="showArticle(node.id)">{{node.name}}</span>
 
     </mat-tree-node>
 

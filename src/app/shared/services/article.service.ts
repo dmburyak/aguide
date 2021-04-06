@@ -25,6 +25,10 @@ export class ArticleService {
       ));
   }
 
+  getArticlesById(id: string): Observable<any> {
+    return this.http.get(`${environment.fbUrl}/article/${id}.json`);
+  }
+
   getFirstArticle(articles: Article[]): Article {
     const minArticleSortNumber = Math.min(...articles.map((article: Article) => article.sortNumber));
     return articles.find((article: Article) => article.sortNumber === minArticleSortNumber) as Article;

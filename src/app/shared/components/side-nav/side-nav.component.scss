@@ -16,3 +16,11 @@
   height: 30px;
   line-height: 30px;
 }
+
+.side-link {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

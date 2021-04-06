@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { TreeNode } from '../../interfaces';
 
@@ -15,6 +15,8 @@ export class SideNavComponent implements OnInit {
     this.dataSource.data = data;
   }
 
+  @Output() goShowArticle = new EventEmitter();
+
   treeControl = new NestedTreeControl<TreeNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<TreeNode>();
   items = false;
@@ -29,7 +31,10 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   // console.log(this.dataSource.data);
-    // this.dataSource.data = [{name: 'Loading...'}];
+  }
+
+  showArticle(id: string): void {
+    this.goShowArticle.emit(id);
+    console.log(id);
   }
 }

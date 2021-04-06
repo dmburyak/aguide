@@ -51,7 +51,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           (article) => category.categoryName === article.category.categoryName
         );
         articlesOfCategory.sort((a, b) => a.sortNumber - b.sortNumber);
-        const titles: { name: string; }[] = articlesOfCategory.map((article) => ({name: article.content.title}));
+        const titles: { name: string }[] = articlesOfCategory.map((article) => ({name: article.content.title, id: article.id}));
         return {name: category.categoryName, children: titles};
       });
 
@@ -63,5 +63,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
     if (this.firstArticleSubscription) {
       this.firstArticleSubscription.unsubscribe();
     }
+  }
+
+  showArticle($event: string): void {
+    this.articleService.getArticlesById($event)
+      .subscribe(
+        (article) => this.article = article
+      );
   }
 }

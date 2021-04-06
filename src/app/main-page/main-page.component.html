@@ -31,7 +31,7 @@
     <mat-sidenav [(opened)]="breakpointService.showSidenav" [mode]="breakpointService.sidenavMode"
                  [fixedInViewport]="breakpointService.isMobile" fixedTopGap="56">
 
-      <app-side-nav [tree]="tree"></app-side-nav>
+      <app-side-nav [tree]="tree" (goShowArticle)="showArticle($event)"></app-side-nav>
 
     </mat-sidenav>
 
