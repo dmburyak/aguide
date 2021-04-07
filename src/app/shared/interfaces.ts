@@ -14,7 +14,7 @@ export interface Category {
 }
 
 export interface Article {
-  category: Category;
+  categoryName: string;
   content: {
     title: string;
     text: string;
@@ -27,4 +27,9 @@ export interface TreeNode {
   name: string;
   children?: TreeNode[];
   id?: string;
+}
+
+export interface MaxNumber {
+  article: number;
+  category: number;
 }

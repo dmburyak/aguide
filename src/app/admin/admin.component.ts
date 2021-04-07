@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  toolbarTitle = 'Add new Article';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

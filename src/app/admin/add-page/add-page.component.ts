@@ -4,6 +4,8 @@ import { ArticleService } from '../../shared/services/article.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Article, Category } from '../../shared/interfaces';
 import { CategoryService } from '../../shared/services/category.service';
+import { SortNumbersService } from '../../shared/services/sort-numbers.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-page',
@@ -22,11 +24,16 @@ export class AddPageComponent implements OnInit {
   newCategory = new FormControl('');
   newCategorySortNumber = new FormControl('');
 
+  allCategories: Category[] = [];
+  maxArticleSortNumber = 0;
+  article!: Article;
+
   constructor(
     private articleService: ArticleService,
     private snackBarService: SnackBarService,
-    private categoryService: CategoryService
-    ) {
+    private categoryService: CategoryService,
+    private sortNumberService: SortNumbersService
+  ) {
   }
 
   addForm = new FormGroup({
@@ -38,37 +45,52 @@ export class AddPageComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.categoryService.getAllCategories()
+      .subscribe(
+        (categories) => {
+          this.allCategories = categories.sort((a, b) => a.categorySortNumber - b.categorySortNumber);
+        }
+      );
+
   }
 
   submit(): void {
     this.submitted = true;
-    let maxArticleSortNumber = 10;
 
     const category: Category = {
       categoryName: this.newCategory.value ? this.newCategory.value : this.category.value,
       categorySortNumber: this.newCategorySortNumber.value,
     };
 
-    const article: Article = {
-      category,
-      content: {
-        text: this.text.value,
-        title: this.title.value,
-      },
-      sortNumber: maxArticleSortNumber++
-    };
+    const prepareArticle = this.sortNumberService.getMaxArticleNumber()
+      .pipe(
+        map((res: { article: number; }) => {
+          this.maxArticleSortNumber = ++res.article;
+          console.log(this.maxArticleSortNumber);
+          return this.article = {
+            categoryName: category.categoryName,
+            content: {
+              text: this.text.value,
+              title: this.title.value,
+            },
+            sortNumber: this.maxArticleSortNumber
+          };
+        }));
 
-    this.articleService.createArticle(article).subscribe(
+    prepareArticle.subscribe(
       () => {
-        this.submitted = false;
-        this.snackBarService.openSnackBar('New Article created!');
-        this.ngForm.resetForm();
-      },
-      (error) => {
-        this.submitted = false;
-        console.log(error);
+        this.articleService.createArticle(this.article)
+          .subscribe(() => {
+              this.submitted = false;
+              const data = {article: this.maxArticleSortNumber};
+              this.sortNumberService.updateMaxNumber(data).subscribe();
+              this.snackBarService.openSnackBar('New Article created!');
+              this.ngForm.resetForm();
+            }
+          );
       }
     );
+
 
     if (this.newCategory.value) {
       this.categoryService.createCategory(category).subscribe(

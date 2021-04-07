@@ -48,7 +48,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
       this.tree = this.categories.map((category) => {
         const articlesOfCategory = this.articles.filter(
-          (article) => category.categoryName === article.category.categoryName
+          (article) => category.categoryName === article.categoryName
         );
         articlesOfCategory.sort((a, b) => a.sortNumber - b.sortNumber);
         const titles: { name: string }[] = articlesOfCategory.map((article) => ({name: article.content.title, id: article.id}));

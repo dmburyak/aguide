@@ -19,7 +19,7 @@ export class ArticleService {
   }
 
   getArticlesByCategoryName(categoryName: string): Observable<Article[]> {
-    return this.http.get(`${environment.fbUrl}/article.json?orderBy="category/categoryName"&equalTo="${categoryName}"`)
+    return this.http.get(`${environment.fbUrl}/article.json?orderBy="categoryName"&equalTo="${categoryName}"`)
       .pipe(map((res: any) => Object.keys(res)
         .map(key => ({...res[key], id: key}))
       ));

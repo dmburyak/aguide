@@ -35,6 +35,5 @@ export class SideNavComponent implements OnInit {
 
   showArticle(id: string): void {
     this.goShowArticle.emit(id);
-    console.log(id);
   }
 }

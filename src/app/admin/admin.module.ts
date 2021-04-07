@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { AddPageComponent } from './add-page/add-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -26,7 +26,7 @@ import { QuillModule } from 'ngx-quill';
 @NgModule({
   declarations: [
     AdminComponent,
-    DashboardComponent,
+    DashboardPageComponent,
     AddPageComponent,
     EditPageComponent,
     LoginPageComponent,
