@@ -1,4 +1,15 @@
 <mat-toolbar class="toolbar" color="primary">
   <a href="/" class="link"><img class="app-logo" src="../assets/angular-white-transparent.svg"></a>
-  <h3 class="title">{{title}}</h3>
+
+  <nav>
+    <a class="top-link" mat-button routerLink="/admin"
+       routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Dashboard
+      <div class="link-underline"></div>
+    </a>
+    <a class="top-link" mat-button routerLink="/admin/add" routerLinkActive="active">Add Article
+      <div class="link-underline"></div>
+    </a>
+
+  </nav>
+
 </mat-toolbar>

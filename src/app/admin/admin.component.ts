@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -8,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class AdminComponent implements OnInit {
   toolbarTitle = 'Add new Article';
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    console.log(this.route);
   }
 
 }

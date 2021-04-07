@@ -12,6 +12,17 @@
   height: 50px;
 }
 
-.title {
-  margin-left: 30%;
+.top-link {
+  border-radius: 0;
+
+  .link-underline {
+    height: 2px;
+    width: 0%;
+    background-color: white;
+  }
+
+  &.active .link-underline {
+    width: 100%;
+    transition: width linear .3s;
+  }
 }

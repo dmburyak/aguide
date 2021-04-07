@@ -10,8 +10,8 @@ import { DashboardPageComponent } from './dashboard-page/dashboard-page.componen
 const routes: Routes = [
   {
     path: '', component: AdminComponent, children: [
-      {path: '', component: DashboardPageComponent},
-      {path: 'add', component: AddPageComponent},
+      {path: '', component: DashboardPageComponent, data: {title: 'Dashboard'}},
+      {path: 'add', component: AddPageComponent, data: {title: 'Adding'}},
       {path: 'edit', component: EditPageComponent},
       {path: 'login', component: LoginPageComponent}
     ]

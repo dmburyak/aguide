@@ -1,5 +1,6 @@
 <div class="form-container">
   <form class="add-page" [formGroup]="addForm" (ngSubmit)="submit()" #ngForm="ngForm">
+    <h2>Add new Article</h2>
     <mat-form-field appearance="standard">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
