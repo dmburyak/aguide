@@ -3,24 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-
-/** Constants used to fill up our data base. */
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
-
-
 @Component({
   selector: 'app-dashboard-content',
   templateUrl: './dashboard-content.component.html',
@@ -30,20 +12,21 @@ const NAMES: string[] = [
 export class DashboardContentComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['articleTitle', 'categoryName', 'sortNumber'];
-  dataSource: MatTableDataSource<UserData>;
+  dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  @Input() allArticles: any[] = [];
+  @Input()
+  set allArticles(data: any) {
+    this.dataSource.data = data;
+  }
 
   constructor() {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-
-    setTimeout(() => this.dataSource.data = this.allArticles, 3000);
   }
 
   ngAfterViewInit(): void {

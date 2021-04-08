@@ -7,6 +7,13 @@ table {
   width: 100%;
 }
 
-td, th {
-  width: 25%;
+.mat-column-articleTitle {
+  width: 50%;
 }
+
+td.mat-column-sortNumber {
+  width: 10%;
+  padding-right: 44px !important;
+  text-align: right;
+}
+

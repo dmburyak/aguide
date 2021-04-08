@@ -10,33 +10,6 @@ import { Subscription } from 'rxjs';
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
   allArticles: any[] = [];
-  /*
-  {
-    categoryName: 'ccc1',
-    articleTitle: 'qwewqe',
-    id: '-MXga-GadVqqbLzukQvR',
-    sortNumber: 2
-  },
-  {
-    categoryName: 'ccc2',
-    articleTitle: 'sdfsdfsdf',
-    id: '-MXgbnDQ14BbDMBukAny',
-    sortNumber: 3
-  },
-  {
-    categoryName: 'ccc3',
-    articleTitle: 'sdfsdfsdf',
-    id: '-MXgbtv4caip2bIXEoRd',
-    sortNumber: 4
-  },
-  {
-    categoryName: 'ccc1',
-    articleTitle: 'wewewe',
-    id: '-MXggFtavJ6DJY-4-Hvb',
-    sortNumber: 5
-  }
-];
-*/
 
   private subscription!: Subscription;
 
@@ -54,7 +27,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
             sortNumber: article.sortNumber
           };
         }).sort((a, b) => a.sortNumber - b.sortNumber);
-        console.log(this.allArticles);
       });
 
   }
