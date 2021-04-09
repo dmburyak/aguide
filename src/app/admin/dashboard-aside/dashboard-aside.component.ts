@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {TreeItem} from '../../shared/interfaces';
 
 @Component({
@@ -8,15 +8,16 @@ import {TreeItem} from '../../shared/interfaces';
 })
 export class DashboardAsideComponent {
 
+  @Input()
+  set allCategories(data: any[]) {
+    this.treeItem.treeSubItem = data;
+  }
+
   treeItem: TreeItem = {
     name: 'Select all',
     selected: false,
     color: 'primary',
-    treeSubItem: [
-      {name: 'Взаимодействие компонентов', selected: false, color: 'primary'},
-      {name: 'Accent', selected: false, color: 'primary'},
-      {name: 'Warn', selected: false, color: 'primary'}
-    ]
+    treeSubItem: []
   };
 
   allSelect = false;
