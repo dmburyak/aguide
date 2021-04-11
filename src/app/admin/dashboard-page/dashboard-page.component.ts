@@ -71,9 +71,13 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   receiveTreeEvent($event: TreeItem[]): void {
-    const selectedCategoryName = $event.filter(category => category.selected)
+    const selectedCategoryNames = $event.filter(category => category.selected)
       .map(item => item.name);
-    this.selectedArticles = this.allArticles.filter(article => selectedCategoryName.includes(article.categoryName));
+    if (selectedCategoryNames.length > 0) {
+      this.selectedArticles = this.allArticles.filter(article => selectedCategoryNames.includes(article.categoryName));
+    } else {
+      this.selectedArticles = this.allArticles;
+    }
   }
 
 }
