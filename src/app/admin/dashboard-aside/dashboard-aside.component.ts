@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {TreeItem} from '../../shared/interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TreeItem } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-dashboard-aside',
@@ -9,21 +9,18 @@ import {TreeItem} from '../../shared/interfaces';
 export class DashboardAsideComponent {
 
   @Input()
-  set allCategories(data: any[]) {
-    this.treeItem.treeSubItem = data;
+  set tree(data: any) {
+    this.treeItem = data;
   }
 
-  treeItem: TreeItem = {
-    name: 'Select all',
-    selected: false,
-    color: 'primary',
-    treeSubItem: []
-  };
+  @Output() treeEvent = new EventEmitter<TreeItem[]>();
 
+  treeItem!: TreeItem;
   allSelect = false;
 
   updateAllSelect(): void {
     this.allSelect = this.treeItem.treeSubItem != null && this.treeItem.treeSubItem.every(t => t.selected);
+    this.treeEvent.emit(this.treeItem.treeSubItem);
   }
 
   someSelect(): boolean {
@@ -39,5 +36,7 @@ export class DashboardAsideComponent {
       return;
     }
     this.treeItem.treeSubItem.forEach(t => t.selected = selected);
+    this.treeEvent.emit(this.treeItem.treeSubItem);
   }
+
 }

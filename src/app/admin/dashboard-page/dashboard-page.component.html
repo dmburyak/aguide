@@ -1,11 +1,14 @@
 <main class="main">
 
   <aside class="aside">
-    <app-dashboard-aside [allCategories]="allCategories"></app-dashboard-aside>
+    <app-dashboard-aside
+      [tree]="treeItem"
+      (treeEvent)="receiveTreeEvent($event)"
+    ></app-dashboard-aside>
   </aside>
 
   <div class="content">
-    <app-dashboard-content [allArticles]="allArticles"></app-dashboard-content>
+    <app-dashboard-content [selectedArticles]="selectedArticles"></app-dashboard-content>
   </div>
 
 </main>

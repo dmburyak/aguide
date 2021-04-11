@@ -10,11 +10,11 @@
   </span>
   <span class="list-section">
     <ul>
-      <li *ngFor="let subcategory of treeItem.treeSubItem">
-        <mat-checkbox [(ngModel)]="subcategory.selected"
-                      [color]="subcategory.color"
+      <li *ngFor="let subItem of treeItem.treeSubItem">
+        <mat-checkbox [(ngModel)]="subItem.selected"
+                      [color]="subItem.color"
                       (ngModelChange)="updateAllSelect()">
-          {{subcategory.name}}
+          {{subItem.name}}
         </mat-checkbox>
       </li>
     </ul>

@@ -18,7 +18,7 @@ export class DashboardContentComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   @Input()
-  set allArticles(data: any) {
+  set selectedArticles(data: any) {
     this.dataSource.data = data;
   }
 

@@ -2,16 +2,25 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../shared/services/article.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../shared/services/category.service';
+import { TreeItem } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.scss']
 })
+
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
   allArticles: any[] = [];
-  allCategories: any[] = [];
+  selectedArticles: any[] = [];
+
+  treeItem: TreeItem = {
+    name: 'Select all',
+    selected: false,
+    color: 'primary',
+    treeSubItem: []
+  };
 
   private articleSubscription!: Subscription;
 
@@ -21,11 +30,16 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  selectCategory(categoryNames: string[]): void {
+    this.allArticles = this.allArticles.filter(article => categoryNames.includes(article.categoryName));
+    console.log(this.allArticles);
+  }
+
   ngOnInit(): void {
 
     this.articleSubscription = this.articleService.getAllArticles()
       .subscribe((res) => {
-        this.allArticles = res.map(article => {
+        this.selectedArticles = this.allArticles = res.map(article => {
           return {
             categoryName: article.categoryName,
             articleTitle: article.content.title,
@@ -37,9 +51,15 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
     this.categoryService.getAllCategories()
       .subscribe((result) => {
-        this.allCategories = result
+        const allCategories: TreeItem[] = result
           .sort((a, b) => a.categorySortNumber - b.categorySortNumber)
           .map((category) => ({name: category.categoryName, selected: false, color: 'primary'}));
+        this.treeItem = {
+          name: 'Select all',
+          selected: false,
+          color: 'primary',
+          treeSubItem: allCategories
+        };
       });
 
   }
@@ -49,4 +69,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
       this.articleSubscription.unsubscribe();
     }
   }
+
+  receiveTreeEvent($event: TreeItem[]): void {
+    const selectedCategoryName = $event.filter(category => category.selected)
+      .map(item => item.name);
+    this.selectedArticles = this.allArticles.filter(article => selectedCategoryName.includes(article.categoryName));
+  }
+
 }
