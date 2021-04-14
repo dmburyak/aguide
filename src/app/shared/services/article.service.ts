@@ -18,6 +18,10 @@ export class ArticleService {
     return this.http.post(`${environment.fbUrl}/article.json`, article);
   }
 
+  updateArticle(data: Article | any, id: string): Observable<any> {
+    return this.http.patch(`${environment.fbUrl}/article/${id}.json`, data);
+  }
+
   getArticlesByCategoryName(categoryName: string): Observable<Article[]> {
     return this.http.get(`${environment.fbUrl}/article.json?orderBy="categoryName"&equalTo="${categoryName}"`)
       .pipe(map((res: any) => Object.keys(res)

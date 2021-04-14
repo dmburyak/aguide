@@ -3,6 +3,7 @@ import { ArticleService } from '../../shared/services/article.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../shared/services/category.service';
 import { TreeItem } from '../../shared/interfaces';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -14,6 +15,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   allArticles: any[] = [];
   selectedArticles: any[] = [];
+  selectedCategoryNames: string[] = [];
 
   treeItem: TreeItem = {
     name: 'Select all',
@@ -27,12 +29,12 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   constructor(
     private articleService: ArticleService,
     private categoryService: CategoryService,
+    private snackBarService: SnackBarService
   ) {
   }
 
   selectCategory(categoryNames: string[]): void {
     this.allArticles = this.allArticles.filter(article => categoryNames.includes(article.categoryName));
-    console.log(this.allArticles);
   }
 
   ngOnInit(): void {
@@ -71,13 +73,39 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   receiveTreeEvent($event: TreeItem[]): void {
-    const selectedCategoryNames = $event.filter(category => category.selected)
+    this.selectedCategoryNames = $event.filter(category => category.selected)
       .map(item => item.name);
-    if (selectedCategoryNames.length > 0) {
-      this.selectedArticles = this.allArticles.filter(article => selectedCategoryNames.includes(article.categoryName));
+    if (this.selectedCategoryNames.length > 0) {
+      this.selectedArticles = this.allArticles.filter(article => this.selectedCategoryNames.includes(article.categoryName));
     } else {
       this.selectedArticles = this.allArticles;
     }
+  }
+
+  receiveSortNumberEvent($event: string[]): void {
+    const newSortNumber = {
+      sortNumber: +$event[0]
+    };
+
+    const inputId = $event[1];
+    this.articleService.updateArticle(newSortNumber, inputId)
+      .subscribe(() => {
+          this.snackBarService.openSnackBar('Position number is updated');
+          const articleIndex = this.allArticles.findIndex(article => article.id === inputId);
+
+          this.allArticles[articleIndex].sortNumber = newSortNumber.sortNumber;
+
+          this.allArticles = this.allArticles.sort((a, b) => a.sortNumber - b.sortNumber);
+
+          if (this.selectedCategoryNames.length > 0) {
+            this.selectedArticles = this.allArticles.filter(article => this.selectedCategoryNames.includes(article.categoryName));
+          } else {
+            this.selectedArticles = this.allArticles.slice();
+            console.log(this.selectedArticles);
+          }
+
+        }
+      );
   }
 
 }

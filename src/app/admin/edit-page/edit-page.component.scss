@@ -1,0 +1,26 @@
+.edit-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding-top: 20px;;
+}
+
+.form-container {
+  padding: 0 20px;
+}
+
+.form-container, .mat-form-field {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.btn-submit {
+  margin: 10px 0 0 auto;
+}
+
+.error {
+  color: #f44336;
+  font-size: 75%;
+}
+

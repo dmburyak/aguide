@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '', component: AdminComponent, children: [
       {path: '', component: DashboardPageComponent, data: {title: 'Dashboard'}},
       {path: 'add', component: AddPageComponent, data: {title: 'Adding'}},
-      {path: 'edit', component: EditPageComponent},
+      {path: 'edit/:id', component: EditPageComponent},
       {path: 'login', component: LoginPageComponent}
     ]
   },

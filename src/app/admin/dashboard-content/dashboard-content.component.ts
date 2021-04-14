@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,10 +17,15 @@ export class DashboardContentComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  isEnabled = false;
+
   @Input()
   set selectedArticles(data: any) {
     this.dataSource.data = data;
+    // console.log(data);
   }
+
+  @Output() updatePositionNumber = new EventEmitter();
 
   constructor() {
     this.dataSource = new MatTableDataSource();
@@ -43,5 +48,12 @@ export class DashboardContentComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  sendSortNumberEvent($event: Event): void {
+    const inputValue = ($event.target as HTMLInputElement).value;
+    const inputId = ($event.target as HTMLInputElement).id;
+    this.updatePositionNumber.emit([inputValue, inputId]);
+  }
+
 
 }

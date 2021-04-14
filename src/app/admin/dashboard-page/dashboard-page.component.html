@@ -8,7 +8,10 @@
   </aside>
 
   <div class="content">
-    <app-dashboard-content [selectedArticles]="selectedArticles"></app-dashboard-content>
+    <app-dashboard-content
+      [selectedArticles]="selectedArticles"
+      (updatePositionNumber)="receiveSortNumberEvent($event)"
+    ></app-dashboard-content>
   </div>
 
 </main>

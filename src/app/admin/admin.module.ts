@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { QuillModule } from 'ngx-quill';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -34,22 +35,23 @@ import { QuillModule } from 'ngx-quill';
     DashboardAsideComponent,
     ToolbarComponent
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatToolbarModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatSelectModule,
-    MatButtonModule,
-    QuillModule.forRoot()
-  ]
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatSortModule,
+        MatSelectModule,
+        MatButtonModule,
+        QuillModule.forRoot(),
+        MatTooltipModule
+    ]
 })
 export class AdminModule {
 }

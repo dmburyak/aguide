@@ -11,7 +11,7 @@
       <mat-label>Category</mat-label>
       <mat-select formControlName="category">
         <mat-option *ngFor="let category of allCategories"
-                    [value]="category.categoryName">{{category.categoryName}} <> sort index:
+                    [value]="category.categoryName">{{category.categoryName}} <> position index:
           {{category.categorySortNumber}}</mat-option>
         <mat-option value="new">New category</mat-option>
       </mat-select>
