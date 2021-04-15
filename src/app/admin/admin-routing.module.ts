@@ -6,6 +6,7 @@ import { EditPageComponent } from './edit-page/edit-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
+import { CategoryPageComponent } from './category-page/category-page.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       {path: '', component: DashboardPageComponent, data: {title: 'Dashboard'}},
       {path: 'add', component: AddPageComponent, data: {title: 'Adding'}},
       {path: 'edit/:id', component: EditPageComponent},
+      {path: 'categories', component: CategoryPageComponent},
       {path: 'login', component: LoginPageComponent}
     ]
   },

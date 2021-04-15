@@ -101,7 +101,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
             this.selectedArticles = this.allArticles.filter(article => this.selectedCategoryNames.includes(article.categoryName));
           } else {
             this.selectedArticles = this.allArticles.slice();
-            console.log(this.selectedArticles);
           }
 
         }

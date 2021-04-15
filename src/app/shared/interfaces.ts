@@ -14,7 +14,8 @@ export interface Category {
 }
 
 export interface Article {
-  categoryName: string;
+  categoryName?: string;
+  categoryId?: string;
   content: {
     title: string;
     text: string;

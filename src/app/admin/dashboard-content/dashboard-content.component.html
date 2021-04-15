@@ -1,4 +1,4 @@
-<h2>Dashboard</h2>
+<h2 class="title">Dashboard</h2>
 
 <mat-form-field>
   <mat-label>Filter</mat-label>
@@ -22,8 +22,8 @@
     <ng-container matColumnDef="sortNumber" class="input-sortNumber">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
       <td mat-cell  *matCellDef="let row">
-        <mat-form-field class="position">
-              <input matInput
+        <mat-form-field class="input-position">
+              <input matInput type = "number"
                      (keyup.enter)="sendSortNumberEvent($event)"
                      [value]="row.sortNumber" [id]="row.id">
         </mat-form-field>

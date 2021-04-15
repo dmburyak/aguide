@@ -22,6 +22,7 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { QuillModule } from 'ngx-quill';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CategoryPageComponent } from './category-page/category-page.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     LoginPageComponent,
     DashboardContentComponent,
     DashboardAsideComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    CategoryPageComponent
   ],
     imports: [
         CommonModule,

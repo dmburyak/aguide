@@ -5,7 +5,8 @@ import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Article, Category } from '../../shared/interfaces';
 import { CategoryService } from '../../shared/services/category.service';
 import { SortNumbersService } from '../../shared/services/sort-numbers.service';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-page',
@@ -25,8 +26,17 @@ export class AddPageComponent implements OnInit {
   newCategorySortNumber = new FormControl('');
 
   allCategories: Category[] = [];
-  maxArticleSortNumber = 0;
-  article!: Article;
+
+  newArticle: Article = {
+    categoryId: '',
+    content: {
+      title: '',
+      text: '',
+    },
+    sortNumber: 0
+  };
+
+  isNewCategorySortNumberHidden = true;
 
   constructor(
     private articleService: ArticleService,
@@ -51,58 +61,64 @@ export class AddPageComponent implements OnInit {
           this.allCategories = categories.sort((a, b) => a.categorySortNumber - b.categorySortNumber);
         }
       );
-
   }
 
   submit(): void {
     this.submitted = true;
 
-    const category: Category = {
-      categoryName: this.newCategory.value ? this.newCategory.value : this.category.value,
-      categorySortNumber: this.newCategorySortNumber.value,
-    };
+    let setCategoryId: Observable<Article>;
 
-    const prepareArticle = this.sortNumberService.getMaxArticleNumber()
-      .pipe(
-        map((res: { article: number; }) => {
-          this.maxArticleSortNumber = ++res.article;
-          console.log(this.maxArticleSortNumber);
-          return this.article = {
-            categoryName: category.categoryName,
-            content: {
-              text: this.text.value,
-              title: this.title.value,
-            },
-            sortNumber: this.maxArticleSortNumber
-          };
+    if (this.newCategory.value) {
+      const category: Category = {
+        categoryName: this.newCategory.value,
+        categorySortNumber: this.newCategorySortNumber.value,
+      };
+      setCategoryId = this.categoryService.createCategory(category)
+        .pipe(map(res => {
+          this.newArticle.categoryId = res.name;
+          return this.newArticle;
         }));
+    } else {
+      setCategoryId = of(
+        this.newArticle.categoryId = this.allCategories
+          .find(item => item.categoryName === this.category.value)?.id
+         )
+        .pipe(map(res => {
+          this.newArticle.categoryId = res;
+          return this.newArticle;
+        }));
+    }
 
-    prepareArticle.subscribe(
-      () => {
-        this.articleService.createArticle(this.article)
-          .subscribe(() => {
-              this.submitted = false;
-              const data = {article: this.maxArticleSortNumber};
-              this.sortNumberService.updateMaxNumber(data).subscribe();
-              this.snackBarService.openSnackBar('New Article created!');
-              this.ngForm.resetForm();
-            }
-          );
+    const setNewArticlePositionNumber = this.sortNumberService.getMaxNumbers()
+      .pipe(map(res => {
+        this.newArticle.sortNumber = ++res.article;
+        this.newArticle.content = {
+          text: this.text.value,
+          title: this.title.value,
+        };
+        return this.newArticle;
+      }));
+
+    const sendNewArticle = this.articleService.createArticle(this.newArticle)
+      .pipe(map(() => ({article: this.newArticle.sortNumber})));
+
+    setCategoryId.pipe(
+      mergeMap(() => setNewArticlePositionNumber),
+      mergeMap(() => sendNewArticle),
+      mergeMap(res => this.sortNumberService.updateMaxArticleNumber(res))
+    ).subscribe(() => {
+        this.submitted = false;
+        this.snackBarService.openSnackBar('New Article created!');
+        this.ngForm.resetForm();
       }
     );
 
+  }
 
-    if (this.newCategory.value) {
-      this.categoryService.createCategory(category).subscribe(
-        () => {
-          this.snackBarService.openSnackBar('New Category created!');
-          this.ngForm.resetForm();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
+  setVisibility(): void {
+   this.category.value === 'new'
+     ? this.isNewCategorySortNumberHidden = false
+     : this.isNewCategorySortNumberHidden = true;
   }
 
 }

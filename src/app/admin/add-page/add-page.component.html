@@ -1,6 +1,9 @@
 <div class="form-container">
+
+  <h2 class="title">Add new Article</h2>
+
   <form class="add-page" [formGroup]="addForm" (ngSubmit)="submit()" #ngForm="ngForm">
-    <h2>Add new Article</h2>
+
     <mat-form-field appearance="standard">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
@@ -9,25 +12,27 @@
 
     <mat-form-field appearance="standard">
       <mat-label>Category</mat-label>
-      <mat-select formControlName="category">
-        <mat-option *ngFor="let category of allCategories"
-                    [value]="category.categoryName">{{category.categoryName}} <> position index:
-          {{category.categorySortNumber}}</mat-option>
+      <mat-select formControlName="category" (ngModelChange)="setVisibility()">
         <mat-option value="new">New category</mat-option>
+        <mat-option *ngFor="let category of allCategories"
+                    [value]="category.categoryName"
+        >{{category.categoryName}} <> position index:
+          {{category.categorySortNumber}}</mat-option>
       </mat-select>
       <mat-error *ngIf="category.invalid">This field is required</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="standard">
-      <mat-label>Enter new category if needed</mat-label>
-      <input matInput formControlName="newCategory">
-    </mat-form-field>
+    <div [hidden]="isNewCategorySortNumberHidden">
+      <mat-form-field appearance="standard">
+        <mat-label>Enter new category name</mat-label>
+        <input matInput formControlName="newCategory">
+      </mat-form-field>
 
-    <mat-form-field appearance="standard">
-      <mat-label>Enter new category order number if needed</mat-label>
-      <input matInput type="number" formControlName="newCategorySortNumber" placeholder="Enter number">
-    </mat-form-field>
-
+      <mat-form-field appearance="standard">
+        <mat-label>Enter new category position number</mat-label>
+        <input matInput type="number" formControlName="newCategorySortNumber" placeholder="Enter number">
+      </mat-form-field>
+    </div>
     <quill-editor formControlName="text"></quill-editor>
     <div class="error" *ngIf="text.touched && text.hasError('required')">This field is required</div>
 

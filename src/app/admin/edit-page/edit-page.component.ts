@@ -94,7 +94,7 @@ export class EditPageComponent implements OnInit {
           .subscribe(() => {
               this.submitted = false;
               const data = {article: this.maxArticleSortNumber};
-              this.sortNumberService.updateMaxNumber(data).subscribe();
+              this.sortNumberService.updateMaxArticleNumber(data).subscribe();
               this.snackBarService.openSnackBar('New Article created!');
               this.ngForm.resetForm();
             }
