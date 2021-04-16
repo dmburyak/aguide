@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MainContentComponent implements OnInit {
 
   @Input() article: any;
+
   content: any;
 
   constructor() {

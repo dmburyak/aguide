@@ -15,7 +15,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   categories: Category[] = [];
   articles: Article[] = [];
-  article: any;
+  article!: Article;
   firstCategory: any;
   firstArticleSubscription: any;
   tree: TreeNode[] = [];

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../shared/services/article.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../shared/services/category.service';
-import { TreeItem } from '../../shared/interfaces';
+import { Category, TreeItem } from '../../shared/interfaces';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   allArticles: any[] = [];
   selectedArticles: any[] = [];
+  allCategories: Category[] = [];
   selectedCategoryNames: string[] = [];
 
   treeItem: TreeItem = {
@@ -44,6 +45,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         this.selectedArticles = this.allArticles = res.map(article => {
           return {
             categoryName: article.categoryName,
+            categoryId: article.categoryId,
             articleTitle: article.content.title,
             id: article.id,
             sortNumber: article.sortNumber
@@ -53,16 +55,19 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
     this.categoryService.getAllCategories()
       .subscribe((result) => {
-        const allCategories: TreeItem[] = result
+        this.allCategories = result;
+        const allItems: TreeItem[] = result
           .sort((a, b) => a.categorySortNumber - b.categorySortNumber)
           .map((category) => ({name: category.categoryName, selected: false, color: 'primary'}));
         this.treeItem = {
           name: 'Select all',
           selected: false,
           color: 'primary',
-          treeSubItem: allCategories
+          treeSubItem: allItems
         };
       });
+
+    this.fillCategoryName();
 
   }
 
@@ -70,6 +75,16 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     if (this.articleSubscription) {
       this.articleSubscription.unsubscribe();
     }
+  }
+
+  fillCategoryName(): void {
+    console.log(this.allArticles);
+    this.allArticles.map(
+      article => {
+        const articleCategory = this.allCategories.find(category => category.id === article.categoryId);
+        article.categoryName = articleCategory?.categoryName;
+       }
+    );
   }
 
   receiveTreeEvent($event: TreeItem[]): void {
