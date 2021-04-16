@@ -7,6 +7,7 @@ import { CategoryService } from '../../shared/services/category.service';
 import { SortNumbersService } from '../../shared/services/sort-numbers.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-edit-page',
@@ -18,6 +19,7 @@ export class EditPageComponent implements OnInit {
   @ViewChild('ngForm') private ngForm!: NgForm;
 
   submitted = false;
+  isNewCategorySortNumberHidden = true;
 
   title = new FormControl('', Validators.required);
   category = new FormControl('', Validators.required);
@@ -45,72 +47,84 @@ export class EditPageComponent implements OnInit {
     private categoryService: CategoryService,
     private sortNumberService: SortNumbersService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
 
-    this.categoryService.getAllCategories()
-      .subscribe(
+    const getCategories = this.categoryService.getAllCategories()
+      .pipe(map(
         (categories) => {
           this.allCategories = categories.sort((a, b) => a.categorySortNumber - b.categorySortNumber);
         }
+        )
       );
 
-    this.activatedRoute.params
+    const getArticle = this.activatedRoute.params
       .pipe(mergeMap(params => {
-        this.id = params.id;
-        return this.articleService.getArticlesById(params.id);
+          this.id = params.id;
+          return this.articleService.getArticlesById(params.id);
         }
-      ))
-      .subscribe(article => {
-      this.article = article;
-      this.title.setValue(article.content.title);
-      this.category.setValue(article.categoryName);
-      this.text.setValue(article.content.text);
-      this.sortNumber = article.sortNumber;
-      console.log(this.article);
-    });
+      ));
 
+    getCategories.pipe(mergeMap(() => getArticle))
+      .subscribe(article => {
+        this.article = article;
+        this.title.setValue(article.content.title);
+        this.category.setValue(
+          this.allCategories.find(category => category.id === article.categoryId)?.categoryName
+        );
+        this.text.setValue(article.content.text);
+        this.sortNumber = article.sortNumber;
+      });
+
+  }
+
+  setVisibility(): void {
+    this.category.value === 'new'
+      ? this.isNewCategorySortNumberHidden = false
+      : this.isNewCategorySortNumberHidden = true;
   }
 
   submit(): void {
     this.submitted = true;
 
-    const category: Category = {
-      categoryName: this.addForm.value.newCategory ? this.addForm.value.newCategory : this.addForm.value.category,
-      categorySortNumber: this.addForm.value.newCategorySortNumber,
-    };
-
-    this.article = {
-            categoryName: category.categoryName,
-            content: {
-              text: this.addForm.value.text,
-              title: this.addForm.value.title,
-            },
-            sortNumber: this.sortNumber
-          };
-
-    this.articleService.updateArticle(this.article, this.id)
-          .subscribe(() => {
-              this.submitted = false;
-              const data = {article: this.maxArticleSortNumber};
-              this.sortNumberService.updateMaxArticleNumber(data).subscribe();
-              this.snackBarService.openSnackBar('New Article created!');
-              this.ngForm.resetForm();
-            }
-          );
+    let getCategoryId$: Observable<string | undefined>;
 
     if (this.addForm.value.newCategory) {
-      this.categoryService.createCategory(category).subscribe(
-        () => {
-          this.snackBarService.openSnackBar('New Category created!');
-          this.ngForm.resetForm();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+
+      const newCategory: Category = {
+        categoryName: this.addForm.value.newCategory,
+        categorySortNumber: this.addForm.value.newCategorySortNumber,
+      };
+      getCategoryId$ = this.categoryService.createCategory(newCategory)
+        .pipe(map((res) => res.name));
+
+    } else {
+      getCategoryId$ = of(this.allCategories.find(
+        item => item.categoryName === this.addForm.value.category)?.id);
     }
+
+    getCategoryId$.pipe(
+      map(res => {
+        this.article = {
+          categoryId: res,
+          content: {
+            text: this.addForm.value.text,
+            title: this.addForm.value.title,
+          },
+          sortNumber: this.sortNumber
+        };
+      }),
+      mergeMap(res => this.articleService.updateArticle(res, this.id)),
+      mergeMap(() => this.sortNumberService.updateMaxArticleNumber({article: this.maxArticleSortNumber}))
+    )
+      .subscribe(() => {
+        this.submitted = false;
+        this.snackBarService.openSnackBar('Article is updated!');
+        this.ngForm.resetForm();
+      });
+
   }
 
 }

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../shared/services/article.service';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { CategoryService } from '../../shared/services/category.service';
 import { Category, TreeItem } from '../../shared/interfaces';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -40,50 +41,48 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.articleSubscription = this.articleService.getAllArticles()
-      .subscribe((res) => {
-        this.selectedArticles = this.allArticles = res.map(article => {
-          return {
-            categoryName: article.categoryName,
-            categoryId: article.categoryId,
-            articleTitle: article.content.title,
-            id: article.id,
-            sortNumber: article.sortNumber
+    const getArticle = this.articleService.getAllArticles()
+      .pipe(
+        map((res) => {
+          this.selectedArticles = this.allArticles = res.map(article => {
+            return {
+              categoryName: article.categoryName,
+              categoryId: article.categoryId,
+              articleTitle: article.content.title,
+              id: article.id,
+              sortNumber: article.sortNumber
+            };
+          }).sort((a, b) => a.sortNumber - b.sortNumber);
+        })
+      );
+
+    const getCategories = this.categoryService.getAllCategories()
+      .pipe(
+        map((result) => {
+          this.allCategories = result;
+          const allItems: TreeItem[] = result
+            .sort((a, b) => a.categorySortNumber - b.categorySortNumber)
+            .map((category) => ({name: category.categoryName, selected: false, color: 'primary'}));
+          this.treeItem = {
+            name: 'Select all',
+            selected: false,
+            color: 'primary',
+            treeSubItem: allItems
           };
-        }).sort((a, b) => a.sortNumber - b.sortNumber);
-      });
+        })
+      );
 
-    this.categoryService.getAllCategories()
-      .subscribe((result) => {
-        this.allCategories = result;
-        const allItems: TreeItem[] = result
-          .sort((a, b) => a.categorySortNumber - b.categorySortNumber)
-          .map((category) => ({name: category.categoryName, selected: false, color: 'primary'}));
-        this.treeItem = {
-          name: 'Select all',
-          selected: false,
-          color: 'primary',
-          treeSubItem: allItems
-        };
-      });
-
-    this.fillCategoryName();
+    this.articleSubscription = merge(getArticle, getCategories)
+      .subscribe(() => this.fillCategoryNames());
 
   }
 
-  ngOnDestroy(): void {
-    if (this.articleSubscription) {
-      this.articleSubscription.unsubscribe();
-    }
-  }
-
-  fillCategoryName(): void {
-    console.log(this.allArticles);
+  fillCategoryNames(): void {
     this.allArticles.map(
       article => {
         const articleCategory = this.allCategories.find(category => category.id === article.categoryId);
         article.categoryName = articleCategory?.categoryName;
-       }
+      }
     );
   }
 
@@ -121,5 +120,13 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+
+  ngOnDestroy(): void {
+    if (this.articleSubscription) {
+      this.articleSubscription.unsubscribe();
+    }
+  }
+
 
 }
