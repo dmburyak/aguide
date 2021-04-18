@@ -11,9 +11,9 @@ export class SortNumbersService {
   constructor(private http: HttpClient) {
   }
 
-  getMaxCategoryNumber(): Observable<any> {
-    return this.http.get(`${environment.fbUrl}/sort-numbers/category.json`);
-  }
+  // getMaxCategoryNumber(): Observable<any> {
+  //   return this.http.get(`${environment.fbUrl}/sort-numbers/category.json`);
+  // }
 
   getMaxNumbers(): Observable<any> {
     return this.http.get(`${environment.fbUrl}/sort-numbers.json`);

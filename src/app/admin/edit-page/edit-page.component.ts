@@ -5,7 +5,7 @@ import { ArticleService } from '../../shared/services/article.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { CategoryService } from '../../shared/services/category.service';
 import { SortNumbersService } from '../../shared/services/sort-numbers.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
@@ -36,7 +36,7 @@ export class EditPageComponent implements OnInit {
   });
 
   allCategories: Category[] = [];
-  maxArticleSortNumber = 0;
+  // maxArticleSortNumber = 0;
   article!: Article;
   sortNumber!: number;
   id = '';
@@ -107,7 +107,7 @@ export class EditPageComponent implements OnInit {
 
     getCategoryId$.pipe(
       map(res => {
-        this.article = {
+        return this.article = {
           categoryId: res,
           content: {
             text: this.addForm.value.text,
@@ -117,7 +117,7 @@ export class EditPageComponent implements OnInit {
         };
       }),
       mergeMap(res => this.articleService.updateArticle(res, this.id)),
-      mergeMap(() => this.sortNumberService.updateMaxArticleNumber({article: this.maxArticleSortNumber}))
+      // mergeMap(() => this.sortNumberService.updateMaxArticleNumber({article: this.maxArticleSortNumber}))
     )
       .subscribe(() => {
         this.submitted = false;
