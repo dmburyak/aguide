@@ -23,10 +23,13 @@ export class CategoryService {
         .map(key => ({...res[key], id: key}))
       ));
   }
-/*
-  getFirstCategory(categories: Category[]): Category {
-    const minCategorySortNumbers = Math.min(...categories.map((category: Category) => category.categorySortNumber));
-    return categories.find((category: Category) => category.categorySortNumber === minCategorySortNumbers) as Category;
+
+  updateCategoryName(id: string, categoryName: string): Observable<any> {
+    return this.http.patch(`${environment.fbUrl}/category/${id}.json`, {categoryName});
   }
-*/
+
+  updateCategoryPosition(id: string, categorySortNumber: number): Observable<any> {
+    return this.http.patch(`${environment.fbUrl}/category/${id}.json`, {categorySortNumber});
+  }
+
 }

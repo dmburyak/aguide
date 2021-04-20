@@ -1,8 +1,25 @@
 .page-container {
-  width: 900px;
+  max-width: 900px;
   margin: 20px auto;
-}
 
-table {
-  width: 100%;
+  .table {
+    width: 100%;
+
+    .name-td {
+      width: 90%;
+    }
+
+    .position-td {
+      width: 10%;
+    }
+
+    .name {
+      width: 95%;
+    }
+
+    .position {
+      width: 50px;
+    }
+  }
+
 }
