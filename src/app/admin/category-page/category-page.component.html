@@ -2,6 +2,44 @@
 
   <h2 class="title">Add/edit Categories</h2>
 
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        New Category adding
+      </mat-panel-title>
+      <mat-panel-description>
+        Click and enter category name and position number
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+  <form class="new-form" [formGroup]="newCategoryGroup" (ngSubmit)="createNewCategory()">
+    <div class="new-fields">
+    <mat-form-field class="new-name-field" appearance="fill">
+      <mat-label>New Category Name</mat-label>
+      <input class="new-name-input" matInput placeholder="Enter category name"
+             formControlName="newCategoryName">
+      <mat-error *ngIf="newCategoryName.invalid">
+        Please enter a category name
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="new-position-field" appearance="fill">
+      <mat-label>Position</mat-label>
+      <input matInput placeholder="Position" type="number"
+             formControlName="newCategoryPosition">
+      <mat-error *ngIf="newCategoryPosition.invalid">
+        Position is required
+      </mat-error>
+    </mat-form-field>
+    </div>
+    <button class="btn-add" mat-raised-button type="submit"
+    [disabled]="newCategoryGroup.invalid"
+    >Add</button>
+
+  </form>
+
+  </mat-expansion-panel>
+
   <table class="table  mat-elevation-z8" mat-table *ngIf="dataSource" [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">

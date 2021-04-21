@@ -2,6 +2,11 @@
   max-width: 900px;
   margin: 20px auto;
 
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .table {
     width: 100%;
 
@@ -20,6 +25,29 @@
     .position {
       width: 50px;
     }
+  }
+
+  .btn-add {
+    display: block;
+    margin: 10px 20px 10px auto;
+  }
+
+  .new-form {
+    width: 100%;
+  }
+
+  .new-fields {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .new-name-field {
+    width: 100%;
+    margin-right: 2%;
+  }
+
+  .new-position-field {
+    width: 100px;
   }
 
 }

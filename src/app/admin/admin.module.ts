@@ -23,6 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { QuillModule } from 'ngx-quill';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CategoryPageComponent } from './category-page/category-page.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
@@ -37,23 +39,25 @@ import { CategoryPageComponent } from './category-page/category-page.component';
     ToolbarComponent,
     CategoryPageComponent
   ],
-    imports: [
-        CommonModule,
-        AdminRoutingModule,
-        ReactiveFormsModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatToolbarModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatSortModule,
-        MatSelectModule,
-        MatButtonModule,
-        QuillModule.forRoot(),
-        MatTooltipModule
-    ]
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatSelectModule,
+    MatButtonModule,
+    QuillModule.forRoot(),
+    MatTooltipModule,
+    MatIconModule,
+    MatExpansionModule
+  ]
 })
 export class AdminModule {
 }
