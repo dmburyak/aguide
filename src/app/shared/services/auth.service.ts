@@ -20,7 +20,9 @@ export class AuthService {
     user.returnSecureToken = true;
     return this.http.post(this.url, user)
       .pipe(
-        tap(response => this.setToken(response))
+        tap((res) => this.setToken(res),
+          () => this.setToken(null)
+          )
       );
   }
 
@@ -44,7 +46,7 @@ export class AuthService {
     return localStorage.getItem('fb-token');
   }
 
-  iaAuthenticated(): boolean {
+  isAuthenticated(): boolean {
     return !!this.token;
   }
 

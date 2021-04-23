@@ -13,9 +13,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideNavComponent } from './shared/components/side-nav/side-nav.component';
 import { MainContentComponent } from './shared/components/main-content/main-content.component';
 import { MatTreeModule } from '@angular/material/tree';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { QuillModule } from 'ngx-quill';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,11 @@ import { QuillModule } from 'ngx-quill';
     MatSnackBarModule,
     QuillModule.forRoot()
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: AuthInterceptor
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
