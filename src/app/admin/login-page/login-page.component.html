@@ -1,1 +1,23 @@
-<p>login-page works!</p>
+<div class="form-container">
+
+  <h3 class="title">Logging in</h3>
+
+  <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="pat@example.com" formControlName="email">
+      <mat-error *ngIf="email.invalid">Enter valid email</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter password</mat-label>
+      <input matInput placeholder="password" type="password" formControlName="password">
+      <mat-error *ngIf="password.invalid">Enter password</mat-error>
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" [disabled]="loginForm.invalid">Login</button>
+
+  </form>
+
+
+</div>

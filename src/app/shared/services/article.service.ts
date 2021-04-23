@@ -29,6 +29,13 @@ export class ArticleService {
       ));
   }
 
+  getArticlesByCategoryId(categoryId: string | undefined): Observable<Article[]> {
+    return this.http.get(`${environment.fbUrl}/article.json?orderBy="categoryId"&equalTo="${categoryId}"`)
+      .pipe(map((res: any) => Object.keys(res)
+        .map(key => ({...res[key], id: key}))
+      ));
+  }
+
   getArticlesById(id: string): Observable<any> {
     return this.http.get(`${environment.fbUrl}/article/${id}.json`);
   }

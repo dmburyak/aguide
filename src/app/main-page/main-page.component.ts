@@ -36,7 +36,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }),
         mergeMap(response => {
           this.categories = response;
-          const firstCategoryArticles = this.articleService.getArticlesByCategoryName(response[0].categoryName);
+
+          const firstCategoryArticles = this.articleService.getArticlesByCategoryId(response[0].id);
           const allArticles = this.articleService.getAllArticles();
           return forkJoin([firstCategoryArticles, allArticles]);
         })
@@ -48,7 +49,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
       this.tree = this.categories.map((category) => {
         const articlesOfCategory = this.articles.filter(
-          (article) => category.categoryName === article.categoryName
+          (article) => category.id === article.categoryId
         );
         articlesOfCategory.sort((a, b) => a.sortNumber - b.sortNumber);
         const titles: { name: string }[] = articlesOfCategory.map((article) => ({name: article.content.title, id: article.id}));

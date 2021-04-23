@@ -34,3 +34,9 @@ export interface MaxNumber {
   article: number;
   category: number;
 }
+
+export interface User {
+  email: string;
+  password: string;
+  returnSecureToken?: boolean;
+}
