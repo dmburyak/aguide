@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BreakpointService } from '../shared/services/breakpoint.service';
-import { ArticleService } from '../shared/services/article.service';
-import { Article, Category, TreeNode } from '../shared/interfaces';
-import { CategoryService } from '../shared/services/category.service';
+import { BreakpointService } from '../../shared/services/breakpoint.service';
+import { ArticleService } from '../../shared/services/article.service';
+import { Article, Category, TreeNode } from '../../shared/interfaces';
+import { CategoryService } from '../../shared/services/category.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 

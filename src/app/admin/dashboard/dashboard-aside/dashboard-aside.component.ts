@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TreeItem } from '../../shared/interfaces';
+import { TreeItem } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-dashboard-aside',

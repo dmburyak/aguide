@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ArticleService } from '../../shared/services/article.service';
+import { ArticleService } from '../../../shared/services/article.service';
 import { merge, Subscription } from 'rxjs';
-import { CategoryService } from '../../shared/services/category.service';
-import { Category, TreeItem } from '../../shared/interfaces';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { CategoryService } from '../../../shared/services/category.service';
+import { Category, TreeItem } from '../../../shared/interfaces';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { map } from 'rxjs/operators';
 
 @Component({

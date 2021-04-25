@@ -1,7 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { TreeNode } from '../../interfaces';
+import { TreeNode } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-side-nav',
